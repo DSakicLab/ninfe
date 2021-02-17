@@ -1,5 +1,4 @@
-# ninfe
-Numerical INner Filter Effect Corrector - NINFE
+# Numerical INner Filter Effect Corrector - NINFE
 # by Tomislav Friganović, Davor Šakić and Tin Weitner
 
 University of Zagreb, Faculty of Pharmacy and Biochemistry, Zagreb, Croatia.
@@ -8,12 +7,12 @@ Help from Mario Gabričević (discussion), Tino Šeba, Valentina Borko, and Robe
 
 Finanancial support provided through Croatian Science Foundation grant no. UIP-2017-05-9537 "Glycosylation as a factor in the iron transport mechanism of human serum transferrin" GlyMech at University of Zagreb Faculty of Pharmacy and Biochemistry.
 
-Introduction
+# Introduction
 
 This is a quick guide in using Numerical INner Filter Effect Corrector - NINFE. 
 Although different methods are available for countering IFE, this method can be implemented into laboratory workflow with minimal hassle.
 
-User guide
+# User guide
 
 Necessary steps:
 
