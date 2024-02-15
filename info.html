@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LGJZ1L7347"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LGJZ1L7347');
+</script>
+
+<head>
+    <title>INFO NINFE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="info.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+    <div class="header_mor">
+        <h1>INFO & USER GUIDE</h1>
+    </div>
+	
+  <div class="nav" id="menu">
+ <a href="https://ninfe.science/index.html" >NINFE</a>
+ <a href="ACF.html">ACF</a>
+ <a href="http://glymech.pharma.hr">GlyMech</a>
+ <a href="https://ninfe.science/info.html" class="right active">INFO & USER GUIDE</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+<script>
+function myFunction() {
+  var x = document.getElementById("menu");
+  if (x.className === "nav") {
+    x.className += " responsive";
+  } else {
+    x.className = "nav";
+  }
+}
+</script>
+
+    <div class="row">
+        <div class="side">
+            <h2>Numerical INner Filter Effect Corrector - NINFE</h2>
+            <p><h3>by Tomislav Friganović, Davor Šakić and Tin Weitner</h3>
+<h4><em>University of Zagreb, Faculty of Pharmacy and Biochemistry, Zagreb, Croatia.</em></h4>
+                <br> Help from Mario Gabričević (discussion), Tino Šeba, Valentina Borko, and Robert Kerep (testing) is greatly appreciated. Please report all suggestion, changes, improvements, and usage to <a href="mailto:dsakic@pharma.hr?subject=NINFE Registration" target="_blank" rel="noopener noreferrer">davor.sakic@pharma.unizg.hr</a>.
+                <br>
+                <br>
+                  <br>
+                    Finanancial support provided through <a href="https://hrzz.hr" target="_blank" > Croatian Science Foundation </a> grant no. UIP-2017-05-9537 "Glycosylation as a factor in the iron transport mechanism of human serum transferrin" <a href="http://glymech.pharma.hr/GlyMech.html" target="_blank" > GlyMech</a> at University of Zagreb <a href="http://pharma.unizg.hr" target="_blank" >Faculty of Pharmacy and Biochemistry</a>. 
+                </p>
+
+                  <p>
+                    <a href="https://hrzz.hr" target="_blank" >
+<img src=hrzz_logo.svg width="40%" max-width="100px">
+         </a>
+                             <a href="https://pharma.unizg.hr" target="_blank" >
+<img src=fbf_logo.png width="25%" max-width="100px">
+         </a>
+            </p>
+	</div>
+	
+        <div id="main0">
+			<p><h2>Introduction</h2>
+This is a quick guide in using Numerical INner Filter Effect Corrector - NINFE. <br>
+Although different methods are available for countering IFE, this method can be implemented into laboratory workflow with minimal hassle.<br><br>
+
+            <p><h2>User guide</h2>
+<h3>Necessary steps:</h3>
+1) Determine the geometric parameter for the respective microplate reader and microplate type.<br>
+2) Measure fluorescence for known fluorophore concentration series to be used for NINFE calibaration. At least two fluorescence measurements at two different z-axis positions (z-positions) for the same sample in the microplate well are required.<br>
+3) Format calibration data table (see details below).<br>
+4) Run NINFE calibration routine to obtain optimal z-position combination and linear response parameters.<br>
+5) Measure fluorescence for samples with unknown fluorophore concentration at the determined optimal z-position combination.<br>
+6) Format concentration readout data table (see details below).<br>
+7) Run NINFE readout routine to retrieve unknown fluorophore concentrations. The NINFE calibration routine needs to be performed previously. Readout can be used multiple times while using the same calibration.<br>
+8) Click START AGAIN for another cycle.<br>
+<br>
+Use <a href="ACF.html">ACF</a> in order to compare corrections using absorbance measurements in transparent 96-well plates.<br>
+<br>
+DISCLAIMER:<br>
+This website is in DEMO mode, in the hope that it will be useful,<br>
+but WITHOUT ANY WARRANTY; without even the implied warranty of <br>
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br>
+Authors assume no responsibility or liability for any errors<br>
+or omissions in the content of this site. The information contained<br>
+in this site is provided on an "as is" basis with no guarantees of<br>
+completeness, accuracy, usefulness or timeliness.<br>
+USE this website, associated program, and results at<br>
+AT YOUR OWN RISK.<br>
+&#xa9;Friganovic, Sakic, Weitner 2020-2021.<br>
+<br>
+</p>
+
+<script>
+	//graph init.
+google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(drawTable11);
+      function drawTable11() {
+var data11=new google.visualization.DataTable();
+data11.addColumn('string','c');
+data11.addColumn('number','z1');
+data11.addColumn('number','z2');
+data11.addColumn('number','z3');
+data11.addColumn('number','z4');
+data11.addColumn('number','z5');
+data11.addRow(['h',15000,16000,17000,18000,19000]);
+data11.addRow(['4.59',12.00,18.67,30.00,32.67,26.67]);
+data11.addRow(['9.19',19.33,34.00,54.33,61.67,49.33]);
+data11.addRow(['13.78',28.00,49.67,81.67,90.33,73.00]);
+data11.addRow(['18.37',35.00,61.67,101.33,114.33,93.00]);
+data11.addRow(['22.96',40.00,72.33,120.67,138.67,113.33]);
+var table11 = new google.visualization.Table(document.getElementById('table_div11'));
+table11.draw(data11, {showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(drawTable13);
+      function drawTable13() {
+var data13=new google.visualization.DataTable();
+data13.addColumn('string','designation');
+data13.addColumn('number','z1');
+data13.addColumn('number','z2');
+data13.addColumn('number','z3');
+data13.addColumn('number','z4');
+data13.addColumn('number','z5');
+data13.addRow(['num',14000,15000,16000,17000,18000]);
+data13.addRow(['A1',10,12,14,16,18]);
+data13.addRow(['B2',50,60,70,80,90]);
+data13.addRow(['C3',100,120,140,160,180]);
+data13.addRow(['D4',150,180,210,240,270]);
+data13.addRow(['E5',200,240,280,320,360]);
+var table13 = new google.visualization.Table(document.getElementById('table_div13'));
+table13.draw(data13, {showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+      google.charts.setOnLoadCallback(drawTable12);
+      function drawTable12() {
+var data12=new google.visualization.DataTable();
+data12.addColumn('number','ID');
+data12.addColumn('number','F1');
+data12.addColumn('number','F2');
+data12.addColumn('number','conc1(4.59)');
+data12.addColumn('number','conc2(9.19)');
+data12.addColumn('number','conc3(13.78)');
+data12.addColumn('number','conc4(18.37)');
+data12.addColumn('number','conc5(22.96)');
+data12.addColumn('number','slope');
+data12.addColumn('number','intercept');
+data12.addColumn('number','r2');
+data12.addColumn('number','rmsre');
+data12.addColumn('number','steyx');
+data12.addColumn('number','LOD');
+data12.addColumn('number','mErr%');
+data12.addColumn('number','LOD%');
+data12.addColumn('number','exp');
+data12.addRow([0,15000,16000,91.3835,258.6138,389.5127,472.0339,607.6425,27.1339,-10.0136,0.9882,0.1034,24.9065,3.0291,1.6336,13.1929,4.5930]);
+data12.addRow([1,15000,17000,62.2416,123.7414,191.5839,236.2970,290.7719,12.4048,10.0144,0.9953,0.0416,7.1715,1.9078,-3.3967,8.3092,1.7965]);
+data12.addRow([2,15000,18000,28.5193,52.6889,77.0587,97.3677,117.1475,4.8332,7.9651,0.9975,0.0295,2.0444,1.3959,-6.6971,6.0798,0.8643]);
+data12.addRow([3,15000,19000,16.4934,28.0719,41.0106,51.6525,60.5595,2.4328,6.0384,0.9957,0.0282,1.3349,1.8108,-9.7558,7.8867,0.3983]);
+data12.addRow([4,16000,15000,221.2044,800.1027,1225.7275,1465.4971,1986.8501,91.3950,-119.3638,0.9839,0.1346,97.9902,3.5381,6.0313,15.4100,-5.5930]);
+var table12 = new google.visualization.Table(document.getElementById('table_div12'));
+table12.draw(data12, {showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+ 
+google.charts.setOnLoadCallback(drawTable100);
+      function drawTable100() {
+var data100=new google.visualization.DataTable();
+data100.addColumn('number','F('+15000+')');
+data100.addColumn('number','F('+16000+')');
+data100.addColumn('number','Fcorrected Pm');
+data100.addColumn('number','conc Pm (uM)');
+data100.addRow([10,18,14.638,1]);
+data100.addRow([50,90,73.19,5]);
+data100.addRow([100,180,146.38,10]);
+data100.addRow([150,270,219.569,15]);
+data100.addRow([200,360,292.759,20]);
+var table100 = new google.visualization.Table(document.getElementById('table_div100'));
+table100.draw(data100, {showRowNumber: true, width: 'automatic', height: 'automatic', title: 'parametric method'});
+};
+
+google.charts.setOnLoadCallback(drawTable1);
+      function drawTable1() {
+var data10=new google.visualization.DataTable();
+data10.addColumn('number','F('+15000+')');
+data10.addColumn('number','F('+17000+')');
+data10.addColumn('number','Fcorrected BBm');
+data10.addColumn('number','conc BBm (uM)');
+data10.addRow([12,14,48.051,1]);
+data10.addRow([60,70,240.255,5]);
+data10.addRow([120,140,480.51,10]);
+data10.addRow([180,210,720.765,15]);
+data10.addRow([240,280,961.02,20]);
+var table1 = new google.visualization.Table(document.getElementById('table_div10'));
+table1.draw(data10, {showRowNumber: true, width: 'automatic', height: 'automatic', title: 'black-box method'});
+};
+
+</script>
+
+<p><h2>Data formats (input/output)</h2>
+Input format (calibration):<br>
+<div id="table_div11"></div> 
+<br>
+<br>
+Output format (calibration): <br>  
+<div id="table_div12"></div> 
+<br>
+Input format (readout):<br>
+<div id="table_div13"></div> 
+<sup>*</sup><sub>Designation = user-defined or sample-specific label, e.g. well position etc.</sub><br>
+<br>
+Output format (readout): <br>  
+<br>
+-Parametric model (Pm)
+<div id="table_div100"></div> 
+<br>
+-Black-box model (BBm)
+<div id="table_div10"></div> 
+<br>
+</p>
+<h2> CREDITS </h2>
+<p>
+Idea: <a href="https://scholar.google.com/citations?user=EpCd-bEAAAAJ&hl=en&oi=ao" target="_blank">Tin Weitner</a>, 2020.-2021.<br>
+<br>Created by: <a href="https://scholar.google.com/citations?user=EpCd-bEAAAAJ&hl=en&oi=ao" target="_blank">Tin Weitner</a>, <a href="#">Tomislav Friganović</a>, and <a href="https://scholar.google.com/citations?hl=en&user=BBURjcwAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Davor Šakić</a>, 2021.<br>
+<br>Python version: <a href="#">Tomislav Friganović</a>, 2021.<br>
+<br>Web adaptation by: <a href="https://scholar.google.com/citations?hl=en&user=BBURjcwAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Davor Šakić</a>, 2021.<br>
+<br>Funding: <a href="http://www.hrzz.hr" target="_blank">HrZZ</a>, <a href="http://glymech.pharma.hr" target="_blank">GlyMech</a>, 2021.<br>
+</p>
+  </body>
+    </div>
+    </div>
+
+    <div class="footer">
+            <p>
+               &#9400; 2021. ninfe.science. All rights reserved.<br><br>
+                Technical support: <a href="mailto:dsakic@pharma.hr?subject=NINFE" target="_blank" rel="noopener noreferrer">Davor Šakić</a><br />
+                design by <a href="mailto:hello@vakuum.studio?subject=WebSiteDesign ninfe.science" target="_blank" rel="noopener noreferrer">Luka Lovrek</a><br>
+            </p>
+    </div>
+
+</body>
+</html>

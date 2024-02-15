@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+    <head>
+        <title>NINFE</title>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LGJZ1L7347"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LGJZ1L7347');
+</script>
+
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="index.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/0.6.1/progressbar.min.js"></script>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    
+    </head>
+
+    <body>
+
+        <div class="header">
+            <h1>Numerical INner Filter Effect Corrector - NINFE </h1>
+        </div>
+        <!--navigacija-->
+  <div class="nav" id="menu">
+ <a href="index.html" class="active">NINFE</a>
+ <a href="ACF.html">ACF</a>
+ <a href="http://glymech.pharma.hr">GlyMech</a>
+ <a href="info.html" class="right">INFO & USER GUIDE</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+<script>
+function myFunction() {
+  var x = document.getElementById("menu");
+  if (x.className === "nav") {
+    x.className += " responsive";
+  } else {
+    x.className = "nav";
+  }
+}
+</script>
+<div style="margin-right: 20px; margin-top: 10px; text-align: right;" >
+<strong>
+VERSION 23.9.2021.
+</strong>
+</div>
+        <div class="row">
+            <div class="column">
+              <ul class="b">
+                <h2>Input for NINFE</h2>         
+<h4>CALIBRATION</h4>
+    <input class="file-selector" type="file" id="input" name="input" accept=".xls,.xlsx,.csv">
+ 
+        <div class="rotating progress" id="progress"></div>
+    <div id="container_bar" style=" margin-top: 10px; margin-right: 10px; margin-left: 20px; width: 90%; height: 8px;"></div>
+<p><li>After selecting file, please be patient while results are generated.<br>Before uploading a new calibration dataset please click the 'START AGAIN' button below to clear previously uploaded values. For full report with all calculated values please select 'DOWNLOAD RESULTS' checkbox below.</li></p>   
+                    <li><form name="parameters">
+
+                    <br>
+                        Geometric parameter:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="height" value="0.020593" /> <br /></form><sub>Default for Tecan Spark M10 microplate reader and 96-well, black, flat bottom microplates (cat. no. 30122298, Tecan, Austria).</sub><br>
+                    </li>
+
+                <h4>READOUT</h4>
+               <li>
+
+<input class="file-selector" type="file" id="input1" name="input1" accept=".xls,.xlsx,.csv">
+
+                        <label class="kocka">DOWNLOAD RESULTS
+                            <input type="checkbox" id="download" checked="true" />
+                            <span class="oznaka"></span>
+                        </label><br>
+                        <label class="kocka">DOWNLOAD GRAPHS
+                            <input type="checkbox" id="downloadGraphs" checked="true" />
+                            <span class="oznaka"></span>
+                        </label><br>
+                        <button type="submit" class="navToggle2" onClick="history.go(0);">START AGAIN</button>
+                </ul>
+                
+                <form name="formatpic">
+                    <br>
+                    Graph export:<br><br>
+                    <label class="radio">
+                        SVG
+                    <input type="radio" checked="checked" id="svg" name="PICtype" value="svg">
+                    <span class="checkmark"></span>
+                    </label>
+                    <label class="radio">
+                    PNG
+                    <input type="radio" id="png" name="PICtype" value="png">
+                    <span class="checkmark"></span>
+                    </label>
+                    Height:&nbsp;&nbsp;<input type="number" name="PICheight" value="600" /> <br />
+                    Width:&nbsp;&nbsp;<input type="number" name="PICwidth" value="800" /> <br />
+                    Scale:&nbsp;&nbsp;<input type="number" name="PICscale" value="1" /> <br />
+                </form>
+
+<p>
+  <br>
+
+  <br>
+  <br>
+                    Finanancial support provided through <a href="https://hrzz.hr" target="_blank" > Croatian Science Foundation </a> grant no. UIP-2017-05-9537 "Glycosylation as a factor in the iron transport mechanism of human serum transferrin" <a href="http://glymech.pharma.hr/GlyMech.html" target="_blank" > GlyMech</a> at University of Zagreb <a href="http://pharma.unizg.hr" target="_blank" >Faculty of Pharmacy and Biochemistry</a>. 
+                </p>
+
+                  <p>
+                    <a href="https://hrzz.hr" target="_blank" >
+<img src=HRZZ_logo_eng.jpg width="50%" max-width="100px">
+         </a>
+                    <a href="https://pharma.unizg.hr" target="_blank" >
+<img src=fbf_logo.png width="25%" max-width="100px">
+         </a>
+  </p>
+
+                <br />
+            </div>
+            <div class="column1">
+<script>
+
+//global variables
+
+
+//download function
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+
+//replace function (with download) <br> with /n
+function br2nl (str, replaceMode) {
+  var replaceStr = (replaceMode) ? "\n" : '';
+  // Includes <br>, <BR>, <br />, </br>
+  return str.replace(/<\s*\/?br\s*[\/]?>/gi, replaceStr);
+}
+
+let data=[{
+    "name":"jayanth",
+    "data":"scd",
+    "abc":"sdef"
+}]
+
+var demomode = 1;
+
+//progress bar
+
+var calibparamFit;
+
+var bar = new ProgressBar.Line(container_bar, {
+  strokeWidth: 4,
+  easing: 'easeInOut',
+  duration: 14000,
+  color: '#0000suzanaFF',
+  trailColor: '#eee',
+  trailWidth: 1,
+  svgStyle: {width: '100%', height: '100%'}
+});
+
+const input = document.querySelector('input');
+input.addEventListener("change", function(){
+bar.animate(1);},true);  
+
+
+//GLOBAL VARIABLES
+let all_data = [];
+let lin_data = [];
+
+//START of calibration function
+let selectedFile;
+const files = [];
+document.getElementById('input').addEventListener("change", (event) => {
+    selectedFile = event.target.files[0];
+          files.push(selectedFile);
+              XLSX.utils.json_to_sheet(data, 'out.xlsx');
+
+
+    if(files[0]){
+        let fileReader = new FileReader();
+        fileReader.readAsBinaryString(files[0]);
+        fileReader.onload = (event)=>{
+         let data = event.target.result;
+         let workbook = XLSX.read(data,{type:"binary"});
+         //console.log(workbook);
+         workbook.SheetNames.forEach(sheet => {
+              let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+
+//converting from json to arrays for working + DEMO
+var keys = Object.keys(rowObject[0]);
+var distances = [];
+if (demomode == 0){
+if (keys.length < 11){
+  var limit=keys.length;
+} else {
+  var limit=11;
+};
+for (i=1; i<limit; i++){
+distances.push(rowObject[0][keys[i]]);
+}
+}
+else{
+for (i=1; i<keys.length; i++){
+distances.push(rowObject[0][keys[i]]);
+} 
+}
+
+var sorted = rowObject.slice(0);
+sorted.sort(function(a,b){
+    return a.c - b.c;
+})
+//console.log(sorted);
+
+var conc = [];
+var concNo = [];
+var concRound = [];
+if (demomode == 0){
+if (sorted.length < 21) {
+  var limit2 = sorted.length;
+} else {
+  var limit2 = 21;
+}
+for (i=1; i<limit2; i++){
+conc.push(sorted[i][keys[0]]);
+concNo.push("c_"+i+" ");
+concRound.push(sorted[i][keys[0]].toFixed(2));
+}
+} else {
+for (i=1; i<sorted.length; i++){
+conc.push(sorted[i][keys[0]]);
+concNo.push("c_"+i+" ");
+concRound.push(sorted[i][keys[0]].toFixed(2));
+}
+}
+var flarray = [];
+for (i=0; i<distances.length; i++){
+    flarray[i] = [];
+    for(j=0; j<conc.length; j++){
+        var val1 = sorted[j+1][keys[i+1]];
+        flarray[i][j] = val1; 
+    }
+}
+
+var arrayfl = [];
+for(j=0; j<conc.length; j++){
+  arrayfl[j] = [];
+for (i=0; i<distances.length; i++){
+  arrayfl[j][i]=flarray[i][j];
+}
+}
+
+var concRow = [];
+for (i=0; i<conc.length; i++){
+var val2 = [];
+val2.push(conc[i]);
+for (j=0; j < distances.length; j++){
+val2.push(Number([flarray[j][i]]));
+}
+concRow.push(val2);
+}
+var distanceRow = [];
+for (i=0; i<distances.length; i++){
+var val3 = [];
+//val3.push(distances[i]);
+for (j=0; j<conc.length; j++){
+val3.push(Number([flarray[i][j]]));
+}
+distanceRow.push(val3);
+}
+
+//linear regression function
+function findLine(values_x, values_y) {
+    var x_sum = 0;
+    var y_sum = 0;
+    var xy_sum = 0;
+    var xx_sum = 0;
+    var yy_sum = 0;
+    var count = 0;
+    var x = 0;
+    var y = 0;
+    var values_length = values_x.length;
+    if (values_length === 0) {
+        return [ [], [], [] ];
+    }
+    for (let i = 0; i< values_length; i++) {
+        x = values_x[i];
+        y = values_y[i];
+        x_sum+= x;
+        y_sum+= y;
+        xx_sum += x*x;
+        xy_sum += x*y;
+        yy_sum += y*y;
+        count++;
+    }
+    var avg_x = x_sum/count;
+    var avg_y = y_sum/count;    
+    var m = (count*xy_sum - x_sum*y_sum) / (count*xx_sum - x_sum*x_sum);
+    var b = (y_sum/count) - (m*x_sum)/count;
+    var result_values_x = [];
+    var result_values_y = [];
+    var diffy = [];
+    var diffx = [];
+    var diffxy = [];
+    var sum_diffy2 = 0;
+    var sum_diffx2 = 0;
+    var sum_diffxy = 0;
+    var y1;
+    for (let i = 0; i < values_length; i++) {
+        x = values_x[i];
+        y = values_y[i];
+        y1 = x * m + b;
+        result_values_x.push(x);
+        result_values_y.push(y1);
+        diffy.push(y-avg_y);
+        diffx.push(x-avg_x);
+        diffxy.push(diffx[i]*diffy[i]);
+        sum_diffy2 += Math.pow(diffy[i],2);
+        sum_diffx2 += Math.pow(diffx[i],2);
+        sum_diffxy += diffxy[i];
+    }
+    var r2 = Math.pow((count*xy_sum - x_sum*y_sum)/Math.sqrt((count*xx_sum-x_sum*x_sum)*(count*yy_sum-y_sum*y_sum)),2);
+    if (r2 > 1){
+      r2 = 0;
+    }
+    if (r2 < 0){
+      r2 = 0; 
+    }
+    var stexy_korak1=(sum_diffxy*sum_diffxy/sum_diffx2);
+    var stexy_korak2=(1/(count-2))*(sum_diffy2-stexy_korak1);
+    var stexy=Math.sqrt(stexy_korak2);
+    var se = 0;
+    for (let i = 0; i < values_length; i++) {
+    se += Math.pow((result_values_y[i]-values_y[i])/result_values_y[i],2);
+    }
+    var rmsre = Math.sqrt(se/values_length,2);
+    var lod = 3.3*stexy/m;
+    //var lod = b + 3.3*stexy/m;
+    //normalise
+    var xmax = Math.max(...values_x);
+    var ymax = Math.max(...values_y);
+    var ymax1 = xmax*m+b;
+    var lodPerc = lod/xmax*100;
+var xnorm_sum = 0;
+var ynorm_sum = 0;
+var xxnorm_sum = 0;
+var xynorm_sum = 0;
+var yynorm_sum = 0;
+count = 0;
+for (let i = 0; i < values_length; i++) {
+       var x = values_x[i];
+       var y = values_y[i];
+       var y1 = x * m + b;
+       var xnorm = x/xmax;
+        //ynorm = y/ymax;
+        ynorm = y/ymax1;
+        xnorm_sum += xnorm;
+        ynorm_sum += ynorm;
+        xxnorm_sum += Math.pow(xnorm,2);
+        xynorm_sum += xnorm*ynorm;
+        yynorm_sum += Math.pow(ynorm,2);
+        count++;
+}
+    var mnorm = (count*xynorm_sum - xnorm_sum*ynorm_sum) / (count*xxnorm_sum - xnorm_sum*xnorm_sum);
+    var bnorm = (ynorm_sum/count) - (m*xnorm_sum)/count;
+    var mErr = (mnorm-1)*100;
+
+    return [m, b, r2, rmsre, stexy, lod, mErr, lodPerc];
+}
+//end statistics
+
+//optimize exponent
+var demo = ("<br>");
+function optExp(conc, val1, val2){
+var firstPoint = findLine(conc,val1);
+demo += ("First point: slope:"+Number(firstPoint[0].toFixed(4))+" interc:"+Number(firstPoint[1].toFixed(4))+" r<sup>2</sup>:"+Number(firstPoint[2].toFixed(4))+" rmsre:"+Number(firstPoint[3].toFixed(4))+" steyx:"+Number(firstPoint[4].toFixed(4))+" lod:"+Number(firstPoint[5].toFixed(4))+" mErr:"+Number(firstPoint[6].toFixed(4))+"<br>");
+var best_r2 = firstPoint[2];
+var best_exp = 0;
+var steps = 41;
+var stepsize = 0.5;
+var mult = 0.1;
+var guess = 10;
+var optSet = [];
+var optStat = [];
+var optFunct = [];
+var stepFunct = [];
+
+for (g=0; g<guess; g++){
+
+var first_exp = best_exp-Math.floor(steps/2)*stepsize;
+var test_exp = [];
+var newSet = [];
+var statnew = [];
+var test_r2 = []; 
+var stepIndivFunct = [];
+
+for (count=0; count < steps; count++){
+
+newSet[count] = [];
+test_exp.push(first_exp+stepsize*count);
+
+for (i=0; i<conc.length; i++){
+var var1 = val1[i];
+var var2 = val2[i];
+var corrector1 = (var2/var1); 
+var corrector2 = Math.pow(corrector1,test_exp[count]);
+var newval = var1*corrector2;
+newSet[count].push(newval);
+} 
+
+statnew.push(findLine(conc,newSet[count]));
+test_r2.push(statnew[count][2]);
+if (test_r2[count] == "Infinity"){
+    test_r2[count]=0;
+}
+optFunct.push([test_exp[count],1-test_r2[count]]);
+stepIndivFunct.push([test_exp[count],1-test_r2[count]]);
+}
+
+var better_r2 = Math.max(...test_r2);
+var better = test_r2.indexOf(Math.max(...test_r2));
+var better_exp = test_exp[better];
+var previous;
+demo += ("Opt step "+g+": exp="+better_exp+" r<sup>2</sup>="+better_r2+" ");
+
+if (best_r2 < better_r2){
+previous = best_r2;
+best_r2 = better_r2;
+best_exp = better_exp;
+//stepsize = stepsize*mult;
+} else {
+stepsize = stepsize*mult;
+}
+
+optSet=newSet[better];
+
+diff=(best_r2-previous)<0.00000001;
+demo +=("Converged? "+diff+"<br>");
+if (diff == "1"){
+demo +=("Optimization finished in "+(g+1)+" steps"+"<br>");
+demo +=("<br>");
+break;
+}
+
+stepFunct.push(stepIndivFunct);
+}
+
+optStat=findLine(conc,optSet);
+var lastPoint = optStat;
+demo += ("Last point: slope:"+Number(lastPoint[0].toFixed(4))+" interc:"+Number(lastPoint[1].toFixed(4))+" r<sup>2</sup>:"+Number(lastPoint[2].toFixed(4))+" rmsre:"+Number(lastPoint[3].toFixed(4))+" steyx:"+Number(lastPoint[4].toFixed(4))+" lod:"+Number(lastPoint[5].toFixed(4))+" mErr:"+Number(lastPoint[6].toFixed(4))+"<br>");
+
+var forDerv = [];
+for(i=0;i<optFunct.length;i++){
+forDerv.push(optFunct[i]);
+}
+forDerv.sort(function(a,b) {
+    return a[0]-b[0]
+});
+
+var forDerv_x = [];
+var forDerv_y = [];
+for (i=0;i<forDerv.length;i++){
+  forDerv_x.push(forDerv[i][0]);
+  forDerv_y.push(forDerv[i][1]);
+}
+
+return {
+  optSet: optSet,
+  exp_fit: best_exp,
+  optStat: optStat,
+  forDerv_x: forDerv_x,
+  forDerv_y: forDerv_y,
+  stepOpt: stepFunct,
+};
+}
+//end of opt exp function
+
+//PARAM FUNCT
+function calceq(conc, val1, val2, dist1, dist2){
+var unitconv = 1000000; //unit converter factor
+var dist1unit = dist1/unitconv;
+var dist2unit = dist2/unitconv; 
+var kval = Number(document.parameters.height.value);
+var exp = ((kval-dist2unit)/(dist2unit-dist1unit));
+var test_r2 = []; 
+
+var newSet = [];
+for (i=0; i<conc.length; i++){
+var var1 = val1[i];
+var var2 = val2[i];
+var corrector1 = (var2/var1); 
+var corrector2 = Math.pow(corrector1,exp);
+var newval = var1*corrector2;
+newSet.push(newval);
+}
+
+var statnew = findLine(conc,newSet);
+
+return{
+    eqSet: newSet,
+    eqStat: statnew,
+    exp_eq: exp,
+}
+}
+//END OF PARAM FUNCT
+
+//LINEARITY OF ORIGINAL DATA
+var removed = [];
+var origDataLinearLast = [];
+var origDataLinearFirst = [];
+var concLinearOriginal = [];
+var fluorLinearOriginal = [];
+var lineLinearOriginal = [];
+    var limitLin_r2 = 0.95;
+    var limitLin_mErr = 10;
+//var demo2 = ("Original data interval of linear response (r2 > 0.95)"+"<br>");
+var demo2 = ("Best original data interval linear response"+"<br>");
+
+for (k=0; k<distances.length; k++){
+//demo5 += ("Distance: "+distances[k]+"<br>");
+var testLinVal = flarray[k].slice();
+var testconc = conc.slice();
+
+for (m=0; m<conc.length; m++){
+var testLin = findLine(testconc,testLinVal);
+if(testLin[2] > limitLin_r2 && testLin[5] < testconc[0]){
+//if(testLin[2] > limitLin_r2){
+        concLinearOriginal[k]=testconc;
+        fluorLinearOriginal[k]=testLinVal;
+        lineLinearOriginal[k]=testLin;
+        origDataLinearLast[k]=testconc[testconc.length-1];
+        origDataLinearFirst[k]=testconc[0];
+
+//OUTPUT ALL
+//demo2 += ("Distance: "+distances[k]+" from: "+Number(origDataLinearFirst[k].toFixed(2))+" to: "+Number(origDataLinearLast[k].toFixed(2))+". Stat: r2="+Number(testLin[2].toFixed(4))+" LOD="+Number(testLin[5].toFixed(2))+" LOD%="+Number(testLin[7].toFixed(2))+" mErr%="+Number(testLin[6].toFixed(2))+"<br>");
+
+var datapoint_lin= {
+setDist: distances[k],
+r2: testLin[2],
+slope: testLin[0],
+intercept: testLin[1],
+rmsre: testLin[3], 
+steyx: testLin[4],
+bottom: testLin[5],
+top: origDataLinearLast[k],
+lod: testLin[5],
+lod_perc: testLin[7],
+merr: testLin[6],
+//nonlin: Math.min(...removed),
+}
+lin_data.push(datapoint_lin);
+
+        for(u=0;u<m;u++){
+           concLinearOriginal[k].push(null); 
+        }
+        m=conc.length;
+    }else{
+var testLinValR = testLinVal.slice();
+removed.push(testLinValR.pop());
+var testconcR =  testconc.slice();
+testconcR.pop();
+var testLinR = findLine(testconcR,testLinValR);
+
+var testLinValL = testLinVal.slice();
+testLinValL.shift();
+var testconcL =  testconc.slice();
+testconcL.shift();
+var testLinL = findLine(testconcL,testLinValL);
+
+if (testLinR[2] > testLinL[2]){
+testconc=testconcR;
+testLinVal=testLinValR;
+}else{
+testconc=testconcL;
+testLinVal=testLinValL;
+}
+
+}
+
+}
+}
+
+//OUTPUT BEST LIN
+var best_lin_r2;
+var lin_r2 = [];
+for (i=0; i<lin_data.length; i++){
+lin_r2.push(lin_data[i].r2);
+}
+best_lin_r2 = lin_r2.indexOf(Math.max(...lin_r2)); 
+
+demo2 += ("Distance: <strong>"+lin_data[best_lin_r2].setDist+"</strong> from: "+Number(lin_data[best_lin_r2].bottom.toFixed(2))+" to: "+Number(lin_data[best_lin_r2].top.toFixed(2))+".<br>Stat: r<sup>2</sup>=<strong>"+Number(lin_data[best_lin_r2].r2.toFixed(4))+"</strong> LOD="+Number(lin_data[best_lin_r2].lod.toFixed(2))+" LOD%="+Number(lin_data[best_lin_r2].lod_perc.toFixed(2))+" mErr%="+Number(lin_data[best_lin_r2].merr.toFixed(2))+"<br>");
+
+
+var demo4 = ("Original data"+"<br>");
+demo4 += ("ID,distance F1,distance F1,"+concNo+"<br>");
+demo4 += ("ID,z1,z1,"+conc+"<br>");
+for (k=0; k<distances.length; k++){
+demo4 += (k+","+distances[k]+","+distances[k]+","+flarray[k]+","+"<br>");
+}
+demo4 += ("<br>");
+demo4 += ("Original data - range of linearity (r2 > 0.95)"+"<br>");
+demo4 += ("ID,distance F1,distance F1,"+concNo+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, Range Of Linearity, Range Of Linearity"+"<br>");
+demo4 += ("ID,z1,z1,"+conc+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, bottom, top"+"<br>");
+for (k=0; k<distances.length; k++){
+demo4 += (k+","+distances[k]+","+distances[k]+",");
+for (j=0; j<conc.length; j++){
+    if (lin_data[k].bottom <= conc[j] && conc[j] <= lin_data[k].top) {
+demo4 += (flarray[k][j]+",");
+    } else {
+demo4 += (NaN+",");
+    }
+}
+demo4 += (lin_data[k].slope+","+lin_data[k].intercept+","+lin_data[k].r2+","+lin_data[k].r2+","+lin_data[k].rmsre+","+lin_data[k].steyx+","+lin_data[k].merr+","+lin_data[k].lod_perc+","+lin_data[k].bottom+","+lin_data[k].top+"<br>");    
+}
+
+demo4 += ("<br>");
+demo4 += ("Parametric model"+"<br>");
+demo4 += ("ID,distance F1,distance F2,"+concNo+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+demo4 += ("ID,z1,z2,"+conc+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+var demo3 = ("ID,distance F1,distance F2,"+concNo+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+demo3 += ("ID,z1,z2,"+conc+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+
+//MAIN
+calibparamFit = 1;
+var setDist1 = [];
+var setDist2 = [];
+var exponents_fit = [];
+var exponents_eq = [];
+var r2_stat_fit = [];
+var r2_stat_eq = [];
+var lod_fit = [];
+var lod_eq = [];
+var statistics_fit = [];
+var statistics_eq = [];
+var set_fit = [];
+var set_eq = [];
+
+var stat_report_val_eq = [];
+var stat_report_val_fit = [];
+var corrarray_eq = [];
+var rmsre_stat_eq = [];
+var rmsre_stat_fit = [];
+var counter = 0;
+var maxvalarray_eq = [];
+var maxvalarray_fit = [];
+var maxConc = Math.max(...conc);
+var output= [];
+var optFunct_fit_x = [];
+var optFunct_fit_y = [];
+var stepOpt = [];
+
+for (k=0; k<distances.length; k++){
+stat_report_val_eq[k]=[];
+stat_report_val_fit[k]=[];
+corrarray_eq[k]=[];
+for (l=0; l<distances.length; l++){
+if (l == k){
+	var origFluo = flarray[k].slice();
+	var origConc = conc.slice();
+	var origLin = findLine(origFluo,origConc);
+	stat_report_val_eq[k][k] = (-1/(1-origLin[2]));
+	stat_report_val_fit[k][k] = (-1/(1-origLin[2]));
+}
+if (l != k){
+corrarray_eq[k][l]=[];
+var var1 = flarray[k];
+var var2 = flarray[l];
+setDist1.push(distances[k]);
+setDist2.push(distances[l]);
+let fromOptExp = optExp(conc,var1,var2);
+exponents_fit.push(fromOptExp.exp_fit);
+statistics_fit.push(fromOptExp.optStat);
+r2_stat_fit.push(statistics_fit[counter][2]);
+lod_fit.push(statistics_fit[counter][5]);
+stat_report_val_fit[k][l] = (-1/(1-r2_stat_fit[counter]));
+set_fit.push(fromOptExp.optSet);
+maxvalarray_fit[counter] = statistics_fit[counter][0]*maxConc + statistics_fit[counter][1];
+rmsre_stat_fit.push(statistics_fit[counter][3]);
+optFunct_fit_x.push(fromOptExp.forDerv_x);
+optFunct_fit_y.push(fromOptExp.forDerv_y);
+stepOpt.push(fromOptExp.stepOpt);
+let fromEqExp = calceq(conc,var1,var2,distances[k],distances[l]);
+exponents_eq.push(fromEqExp.exp_eq);
+statistics_eq.push(fromEqExp.eqStat);
+set_eq.push(fromEqExp.eqSet);
+maxvalarray_eq[counter] = statistics_eq[counter][0]*maxConc + statistics_eq[counter][1];
+r2_stat_eq.push(statistics_eq[counter][2]);
+lod_eq.push(statistics_eq[counter][5]);
+rmsre_stat_eq.push(statistics_eq[counter][3]);
+stat_report_val_eq[k][l] = (-1/(1-r2_stat_eq[counter]));
+//REPORT FULL
+demo4 += (counter+","+distances[k]+","+distances[l]+","+set_eq[counter]+","+statistics_eq[counter]+","+exponents_eq[counter]+"<br>");
+demo3 += (counter+","+distances[k]+","+distances[l]+","+set_fit[counter]+","+statistics_fit[counter]+","+exponents_fit[counter]+"<br>");
+
+var datapoint_all = {
+setDist1: setDist1[counter],
+setDist2: setDist2[counter],
+exp_fit: exponents_fit[counter],
+exp_eq: exponents_eq[counter],
+r2_fit: r2_stat_fit[counter],
+r2_eq: r2_stat_eq[counter],
+slope_eq: statistics_eq[counter][0],
+intercept_eq: statistics_eq[counter][1],
+slope_fit: statistics_fit[counter][0],
+intercept_fit: statistics_fit[counter][1],
+bottom_eq: lod_eq[counter],
+top_eq: conc[conc.length-1],
+bottom_fit: lod_fit[counter],
+top_fit: conc[conc.length-1],
+};
+all_data.push(datapoint_all);
+
+counter += 1;
+}
+}
+}
+
+for (k=1; k<distances.length-1; k++){
+stat_report_val_eq[k][k]= (stat_report_val_eq[k][k+1]+stat_report_val_eq[k+1][k]+stat_report_val_eq[k][k-1]+stat_report_val_eq[k-1][k])/4;
+}
+
+for (k=1; k<distances.length-1; k++){
+stat_report_val_fit[k][k]= (stat_report_val_fit[k][k+1]+stat_report_val_fit[k+1][k]+stat_report_val_fit[k][k-1]+stat_report_val_fit[k-1][k])/4;
+}
+
+//FINDING THE BEST
+var maxCorr_eq = r2_stat_eq.indexOf(Math.max(...r2_stat_eq));
+var minRMSRE_eq = rmsre_stat_eq.indexOf(Math.min(...rmsre_stat_eq));
+var demo5 = ("<br>");
+demo5 += ("<h3>FOR PARAMETRIC MODEL:</h3>"+"<br>"+"<br>");
+demo5 += ("BEST CORRELATION: set "+maxCorr_eq+"."+"<br>");
+demo5 += ("Distances: <b>"+setDist1[maxCorr_eq]+" "+setDist2[maxCorr_eq]+"</b>"+"<br>"+"Exponent: "+exponents_eq[maxCorr_eq].toFixed(4)+"<br>");
+demo5 += ("Linear regression: slope="+Number(statistics_eq[maxCorr_eq][0].toFixed(4))+" intercept="+Number(statistics_eq[maxCorr_eq][1].toFixed(4))+"<br>");
+demo5 += ("r<sup>2</sup>="+Number(statistics_eq[maxCorr_eq][2].toFixed(4))+" rmsre="+Number(statistics_eq[maxCorr_eq][3].toFixed(4))+" steyx="+Number(statistics_eq[maxCorr_eq][4].toFixed(4))+" LOD="+Number(statistics_eq[maxCorr_eq][5].toFixed(4))+" mErr%="+Number(statistics_eq[maxCorr_eq][6].toFixed(4))+" LOD%="+Number(statistics_eq[maxCorr_eq][7].toFixed(4))+"<br>");
+demo5 += ("Calibration range: "+Number(Math.min(...conc).toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo5 += ("Correction range: "+Number(statistics_eq[maxCorr_eq][5].toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo5 += ("<br>");
+//REPORT
+demo4 += ("BEST"+","+setDist1[maxCorr_eq]+","+setDist2[maxCorr_eq]+","+set_eq[maxCorr_eq]+","+statistics_eq[maxCorr_eq]+","+exponents_eq[maxCorr_eq]+"<br>");
+
+//FINDING BEST BBm from PREV
+var demo6 = ("<hr>")
+demo6 += ("<h3>BLACK-BOX MODEL:</h3>"+"<h4>optimization of best parametric set</h4>"+"<br>"+"<br>");
+demo6 += ("BEST CORRELATION: set "+maxCorr_eq+"."+"<br>");
+demo6 += ("Distances: <b>"+setDist1[maxCorr_eq]+" "+setDist2[maxCorr_eq]+"</b><br>"+"Exponent: "+exponents_fit[maxCorr_eq].toFixed(4)+"<br>");
+demo6 += ("Linear regression: slope="+Number(statistics_fit[maxCorr_eq][0].toFixed(4))+" intercept="+Number(statistics_fit[maxCorr_eq][1].toFixed(4))+"<br>");
+demo6 += ("r<sup>2</sup>="+Number(statistics_fit[maxCorr_eq][2].toFixed(4))+" rmsre="+Number(statistics_fit[maxCorr_eq][3].toFixed(4))+" steyx="+Number(statistics_fit[maxCorr_eq][4].toFixed(4))+" LOD="+Number(statistics_fit[maxCorr_eq][5].toFixed(4))+" mErr%="+Number(statistics_fit[maxCorr_eq][6].toFixed(4))+" LOD%="+Number(statistics_fit[maxCorr_eq][7].toFixed(4))+"<br>");
+demo6 += ("Calibration range: "+Number(Math.min(...conc).toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo6 += ("Correction range: "+Number(statistics_fit[maxCorr_eq][5].toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo6 += ("<br>");
+
+demo4 += ("<br>");
+demo4 += ("Black-box, from best parametric"+"<br>");
+demo4 += ("ID,distance F1,distance F2,"+concNo+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+demo4 += ("ID,z1,z2,"+conc+",slope, intercept, r2, rmsre, steyx, LOD, mErr%, LOD%, exp"+"<br>");
+demo4 += ("BEST"+","+setDist1[maxCorr_eq]+","+setDist2[maxCorr_eq]+","+set_fit[maxCorr_eq]+","+statistics_fit[maxCorr_eq]+","+exponents_fit[maxCorr_eq]+"<br>");
+
+
+function maxFindFirstSecond(arr){ 
+    var max1 = Math.max.apply(null, arr), // get the max of the array
+        max1i = arr.indexOf(max1);
+    arr[max1i] = -1; // replace max in the array with -infinity
+    var max2 = Math.max.apply(null, arr); // get the new max 
+    var max2i = arr.indexOf(max2);
+    arr[max1i] = max1;
+    var max = [max1i,max2i];
+    return (max);
+};
+
+var maxCorr_maxima_position = maxFindFirstSecond(r2_stat_fit);
+var max1_exp_fit = exponents_fit[maxCorr_maxima_position[0]];
+var max2_exp_fit = exponents_fit[maxCorr_maxima_position[1]];
+
+if (max1_exp_fit < max2_exp_fit){
+var maxCorr_fit = maxCorr_maxima_position[0];
+} else {
+var maxCorr_fit = maxCorr_maxima_position[1];
+}
+
+//BEST BBm
+var demo7 = ("<hr>");
+demo7 += ("<h3>BLACK-BOX MODEL:</h3>"+"<h4>brute-force optimization</h4>"+"<br>"+"<br>");
+demo7 += ("BEST CORRELATION: set "+maxCorr_fit+"."+"<br>");
+demo7 += ("Distances: <b>"+setDist1[maxCorr_fit]+" "+setDist2[maxCorr_fit]+"</b><br>"+"Exponent: "+exponents_fit[maxCorr_fit].toFixed(4)+"<br>");
+demo7 += ("Linear regression: slope="+Number(statistics_fit[maxCorr_fit][0].toFixed(4))+" intercept="+Number(statistics_fit[maxCorr_fit][1].toFixed(4))+"<br>");
+demo7 += ("r<sup>2</sup>="+Number(statistics_fit[maxCorr_fit][2].toFixed(4))+" rmsre="+Number(statistics_fit[maxCorr_fit][3].toFixed(4))+" steyx="+Number(statistics_fit[maxCorr_fit][4].toFixed(4))+" LOD="+Number(statistics_fit[maxCorr_fit][5].toFixed(4))+" mErr%="+Number(statistics_fit[maxCorr_fit][6].toFixed(4))+" LOD%="+Number(statistics_fit[maxCorr_fit][7].toFixed(4))+"<br>");
+demo7 += ("Calibration range: "+Number(Math.min(...conc).toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo7 += ("Correction range: "+Number(statistics_fit[maxCorr_fit][5].toFixed(2))+" - "+Number(Math.max(...conc).toFixed(2))+"<br>");
+demo7 += ("<br>");
+
+demo4 += ("<br>");
+demo4 += ("Black-box model, all combinations"+"<br>");
+demo4 += demo3;
+demo4 += ("BEST"+","+setDist1[maxCorr_fit]+","+setDist2[maxCorr_fit]+","+set_fit[maxCorr_fit]+","+statistics_fit[maxCorr_fit]+","+exponents_fit[maxCorr_fit]+"<br>");
+
+//table -- ALL
+google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable0);
+      function drawTable0() {
+var data0=new google.visualization.DataTable();
+data0.addColumn('number','ID');
+data0.addColumn('number','F1');
+data0.addColumn('number','F2');
+data0.addColumn('number','slope');
+data0.addColumn('number','intercept');
+data0.addColumn('number','r<sup>2</sup>');
+data0.addColumn('number','rmsre');
+data0.addColumn('number','steyx');
+data0.addColumn('number','LOD');
+data0.addColumn('number','%mErr');
+data0.addColumn('number','%LOD');
+data0.addColumn('number','exp');
+for (i=0; i < counter; i++){
+data0.addRow([i,setDist1[i],setDist2[i],statistics_eq[i][0],statistics_eq[i][1],statistics_eq[i][2],statistics_eq[i][3],statistics_eq[i][4],statistics_eq[i][5],statistics_eq[i][6],statistics_eq[i][7],exponents_eq[i]]);
+}
+var table0 = new google.visualization.Table(document.getElementById('table_div0'));
+//table0.draw(data0, {allowHtml:true,frozenColumns:3,showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+//table1 -- ABSOLUTE, EQ BEST
+google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable1);
+      function drawTable1() {
+var data1=new google.visualization.DataTable();
+data1.addColumn('number','c');
+data1.addColumn('number',setDist1[maxCorr_eq]);
+data1.addColumn('number',setDist2[maxCorr_eq]);
+data1.addColumn('number','F<sub>Z</sub>'); 
+for (i=0; i < conc.length; i++){
+data1.addRow([Number(conc[i].toFixed(2)),Number(valueSet1_eq[i].toFixed(2)),Number(valueSet2_eq[i].toFixed(2)),Number(set_eq[maxCorr_eq][i].toFixed(2))]);
+}
+var table1 = new google.visualization.Table(document.getElementById('table_div1'));
+table1.draw(data1, {allowHtml:true, showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+//table2 -- ABSOLUTE, FIT FROM EQ BEST
+google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable2);
+      function drawTable2() {
+var data2=new google.visualization.DataTable();
+data2.addColumn('number','c');
+data2.addColumn('number',setDist1[maxCorr_eq]);
+data2.addColumn('number',setDist2[maxCorr_eq]);
+data2.addColumn('number','F<sub>Z</sub>'); 
+for (i=0; i < conc.length; i++){
+data2.addRow([Number(conc[i].toFixed(2)),Number(valueSet1_eq[i].toFixed(2)),Number(valueSet2_eq[i].toFixed(2)),Number(set_fit[maxCorr_eq][i].toFixed(2))]);
+}
+var table2 = new google.visualization.Table(document.getElementById('table_div2'));
+table2.draw(data2, {allowHtml:true, showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+//table2 -- ABSOLUTE, FIT BRUTE-FORCE
+google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable3);
+      function drawTable3() {
+var data3=new google.visualization.DataTable();
+data3.addColumn('number','c');
+data3.addColumn('number',setDist1[maxCorr_fit]);
+data3.addColumn('number',setDist2[maxCorr_fit]);
+data3.addColumn('number','F<sub>Z</sub>'); 
+for (i=0; i < conc.length; i++){
+data3.addRow([Number(conc[i].toFixed(2)),Number(valueSet1_fit[i].toFixed(2)),Number(valueSet2_fit[i].toFixed(2)),Number(set_fit[maxCorr_fit][i].toFixed(2))]);
+}
+var table3 = new google.visualization.Table(document.getElementById('table_div3'));
+table3.draw(data3, {allowHtml:true, showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+var valueSet1_eq = flarray[distances.indexOf(setDist1[maxCorr_eq])];
+var valueSet2_eq = flarray[distances.indexOf(setDist2[maxCorr_eq])];
+var valueSet1_fit = flarray[distances.indexOf(setDist1[maxCorr_fit])];
+var valueSet2_fit = flarray[distances.indexOf(setDist2[maxCorr_fit])];
+var scale1_eq = Math.max(...valueSet1_eq);
+var scale2_eq = Math.max(...valueSet2_eq);
+var scale0_eq = Math.max(scale1_eq,scale2_eq);
+var scale1_fitBF = Math.max(...valueSet1_fit);
+var scale2_fitBF = Math.max(...valueSet2_fit);
+var scale0_fitBF = Math.max(scale1_fitBF,scale2_fitBF);
+var scale_eq = maxvalarray_eq[maxCorr_eq] ;
+var scale_fit = maxvalarray_fit[maxCorr_eq] ;
+var scale_fitBF = maxvalarray_fit[maxCorr_fit] ;
+var norm_valueSet1_eq = [];
+var norm_valueSet2_eq = [];
+var norm_valueSet1_fit = [];
+var norm_valueSet2_fit = [];
+var norm_set_eq = [];
+var line_set_eq = [];
+var norm_line_set_eq = [];
+var diff_line_set_eq = [];
+var ideal_line_set_eq = [];
+var rmsre_stat_eq_low = [];
+var rmsre_stat_eq_high = [];
+var diff_line_set_eq_perc = [];
+var ideal_line_set_eq_perc = [];
+var rmsre_stat_eq_low_perc = [];
+var rmsre_stat_eq_high_perc = [];
+var norm_set_fit = [];
+var line_set_fit = [];
+var norm_line_set_fit = [];
+var diff_line_set_fit = [];
+var ideal_line_set_fit = [];
+var rmsre_stat_fit_low = [];
+var rmsre_stat_fit_high = [];
+var diff_line_set_fit_perc = [];
+var ideal_line_set_fit_perc = [];
+var rmsre_stat_fit_low_perc = [];
+var rmsre_stat_fit_high_perc = [];
+var norm_set_fitBF = [];
+var line_set_fitBF = [];
+var norm_line_set_fitBF = [];
+var diff_line_set_fitBF = [];
+var ideal_line_set_fitBF = [];
+var rmsre_stat_fit_lowBF = [];
+var rmsre_stat_fit_highBF = [];
+var diff_line_set_fit_percBF = [];
+var ideal_line_set_fit_percBF = [];
+var rmsre_stat_fit_low_percBF = [];
+var rmsre_stat_fit_high_percBF = [];
+var scale_conc = Math.max(...conc);
+var conc_norm = [];
+for (i=0; i < conc.length; i++){
+conc_norm[i]=conc[i]/scale_conc;
+norm_valueSet1_eq[i]=valueSet1_eq[i]/scale0_eq;
+norm_valueSet2_eq[i]=valueSet2_eq[i]/scale0_eq;
+norm_valueSet1_fit[i]=valueSet1_fit[i]/scale0_fitBF;
+norm_valueSet2_fit[i]=valueSet2_fit[i]/scale0_fitBF;
+norm_set_eq[i]=set_eq[maxCorr_eq][i]/scale_eq;
+line_set_eq[i]=(conc[i]*statistics_eq[maxCorr_eq][0]+statistics_eq[maxCorr_eq][1]);
+norm_line_set_eq[i]=line_set_eq[i]/scale_eq;
+diff_line_set_eq[i]=(norm_set_eq[i]-norm_line_set_eq[i])/norm_line_set_eq[i];
+diff_line_set_eq_perc[i]=diff_line_set_eq[i]*100;
+rmsre_stat_eq_low[i]=statistics_eq[maxCorr_eq][3];
+rmsre_stat_eq_low_perc[i]=rmsre_stat_eq_low[i]*100;
+rmsre_stat_eq_high[i]=-statistics_eq[maxCorr_eq][3];
+rmsre_stat_eq_high_perc[i]=rmsre_stat_eq_high[i]*100;
+//diff_line_set_eq[i]=norm_set_eq[i]-norm_line_set_eq[i];
+//rmsre_stat_eq_low[i]=statistics_eq[maxCorr_eq][3]/2;
+//rmsre_stat_eq_high[i]=-statistics_eq[maxCorr_eq][3]/2;
+ideal_line_set_eq[i]=0;
+ideal_line_set_eq_perc[i]=0;
+ideal_line_set_fit[i]=0;
+ideal_line_set_fit_perc[i]=0;
+norm_set_fit[i]=set_fit[maxCorr_eq][i]/scale_fit;
+line_set_fit[i]=(conc[i]*statistics_fit[maxCorr_eq][0]+statistics_fit[maxCorr_eq][1]);
+norm_line_set_fit[i]=line_set_fit[i]/scale_fit;
+diff_line_set_fit[i]=(norm_set_fit[i]-norm_line_set_fit[i])/norm_line_set_fit[i];
+diff_line_set_fit_perc[i]=diff_line_set_fit[i]*100;
+rmsre_stat_fit_low[i]=statistics_fit[maxCorr_eq][3];
+rmsre_stat_fit_low_perc[i]=rmsre_stat_fit_low[i]*100;
+rmsre_stat_fit_high[i]=-statistics_fit[maxCorr_eq][3];
+rmsre_stat_fit_high_perc[i]=rmsre_stat_fit_high[i]*100;
+//diff_line_set_fit[i]=(norm_set_fit[i]-norm_line_set_fit[i]);
+//rmsre_stat_fit_low[i]=statistics_fit[maxCorr_eq][3]/2;
+//rmsre_stat_fit_high[i]=-statistics_fit[maxCorr_eq][3]/2;
+norm_set_fitBF[i]=set_fit[maxCorr_fit][i]/scale_fitBF;
+line_set_fitBF[i]=(conc[i]*statistics_fit[maxCorr_fit][0]+statistics_fit[maxCorr_fit][1]);
+norm_line_set_fitBF[i]=line_set_fitBF[i]/scale_fitBF;
+diff_line_set_fitBF[i]=(norm_set_fitBF[i]-norm_line_set_fitBF[i])/norm_line_set_fitBF[i];
+diff_line_set_fit_percBF[i]=diff_line_set_fitBF[i]*100;
+rmsre_stat_fit_lowBF[i]=statistics_fit[maxCorr_fit][3];
+rmsre_stat_fit_low_percBF[i]=rmsre_stat_fit_lowBF[i]*100;
+rmsre_stat_fit_highBF[i]=-statistics_fit[maxCorr_fit][3];
+rmsre_stat_fit_high_percBF[i]=rmsre_stat_fit_highBF[i]*100;
+}
+
+var norm_stat_eq = findLine(conc_norm,norm_set_eq);
+var norm_stat_fit = findLine(conc_norm,norm_set_fit);
+var norm_stat_fitBF = findLine(conc_norm,norm_set_fitBF);
+
+demo5 += ("NORMALIZED:"+"<br>"+"Linear regression: slope="+Number(norm_stat_eq[0].toFixed(4))+" intercept="+Number(norm_stat_eq[1].toFixed(4))+"<br>"+"r<sup>2</sup>="+Number(norm_stat_eq[2].toFixed(4))+" rmsre="+Number(norm_stat_eq[3].toFixed(4))+" steyx="+Number(norm_stat_eq[4].toFixed(4))+" LOD="+Number(norm_stat_eq[5].toFixed(4))+" mErr%="+Number(norm_stat_eq[6].toFixed(4))+" LOD%="+Number(norm_stat_eq[7].toFixed(4))+"<br>");
+demo6 += ("NORMALIZED:"+"<br>"+"Linear regression: slope="+Number(norm_stat_fit[0].toFixed(4))+" intercept="+Number(norm_stat_fit[1].toFixed(4))+"<br>"+"r<sup>2</sup>="+Number(norm_stat_fit[2].toFixed(4))+" rmsre="+Number(norm_stat_fit[3].toFixed(4))+" steyx="+Number(norm_stat_fit[4].toFixed(4))+" LOD="+Number(norm_stat_fit[5].toFixed(4))+" mErr%="+Number(norm_stat_fit[6].toFixed(4))+" LOD%="+Number(norm_stat_fit[7].toFixed(4))+"<br>");
+demo7 += ("NORMALIZED:"+"<br>"+"Linear regression: slope="+Number(norm_stat_fitBF[0].toFixed(4))+" intercept="+Number(norm_stat_fitBF[1].toFixed(4))+"<br>"+"r<sup>2</sup>="+Number(norm_stat_fitBF[2].toFixed(4))+" rmsre="+Number(norm_stat_fitBF[3].toFixed(4))+" steyx="+Number(norm_stat_fitBF[4].toFixed(4))+" LOD="+Number(norm_stat_fitBF[5].toFixed(4))+" mErr%="+Number(norm_stat_fitBF[6].toFixed(4))+" LOD%="+Number(norm_stat_fitBF[7].toFixed(4))+"<br>");
+
+
+//graphs
+
+//black-box-BF
+//black-box-line relative
+var dataBBmBF_c_F = [];
+
+dataBBmBF_c_F[0] = {
+  x: conc,
+  y: norm_valueSet1_fit,
+  mode: 'lines+markers',
+  name: setDist1[maxCorr_fit],
+  line: {shape: 'spline'},
+}
+
+dataBBmBF_c_F[1] = {
+  x: conc,
+  y: norm_valueSet2_fit,
+  mode: 'lines+markers',
+  name: setDist2[maxCorr_fit],
+  line: {shape: 'spline'},
+}
+
+dataBBmBF_c_F[2] = {
+  x: conc,
+  y: norm_set_fitBF,
+  mode: 'lines+markers',
+  name: 'Black-box corrected',
+  line: {shape: 'spline'},
+}
+
+dataBBmBF_c_F[3] = {
+  x: conc,
+  y: norm_line_set_fitBF,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+}
+
+var layoutBBmBF_c_F = {
+  title:'Brute-force black-box model: F(normalized) vs c',
+  xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'F (normalized)',
+    }
+  }
+};
+
+var configBBmBF_c_F = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    file: 'custom_image',
+    height: 500,
+    width: 700,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+//var PICformat = document.PICformat.value;
+var PICtype = document.formatpic.PICtype.value;
+var PICheight = Number(document.formatpic.PICheight.value);
+var PICwidth = Number(document.formatpic.PICwidth.value);
+var PICscale = Number(document.formatpic.PICscale.value);
+
+Plotly.react('myDivBBmBF_c_F', dataBBmBF_c_F, layoutBBmBF_c_F, configBBmBF_c_F);
+
+var downloadGraphBox = document.getElementById("downloadGraphs");
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBmBF_c_F', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'brute_force_black_box_model_'+files[0].name});
+}
+
+//black-box -deviation
+var dataBBmBF_c_dF_Fideal=[];
+dataBBmBF_c_dF_Fideal[0] = {
+  x: conc,
+  //y: diff_line_set_fit,
+  y: diff_line_set_fit_percBF,
+  mode: 'lines+markers',
+  name: 'Black-box corrected',
+  line: {shape: 'spline'},
+};
+dataBBmBF_c_dF_Fideal[1] = {
+  x: conc,
+  y: ideal_line_set_fitBF,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+};
+dataBBmBF_c_dF_Fideal[2] = {
+  x: conc,
+  y: rmsre_stat_fit_high_percBF,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+dataBBmBF_c_dF_Fideal[3] = {
+  x: conc,
+  y: rmsre_stat_fit_low_percBF,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+var layoutBBmBF_c_dF_Fideal = {
+  title:'Deviation from ideal line:',
+  shapes: [{
+      type: 'rect',
+      xref: 'x',
+      yref: 'paper',
+      x0: 0,
+      y0: 0,
+      x1: lod_fit[maxCorr_fit],
+      y1: 1,
+            fillcolor: '#d3d3d3',
+            opacity: 0.5,
+            line: {
+                width: 0
+            },
+    }],
+    xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'Deviation (%)',
+    }
+  }
+};
+Plotly.react('myDivBBmBF_c_dF_Fideal', dataBBmBF_c_dF_Fideal, layoutBBmBF_c_dF_Fideal);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBmBF_c_dF_Fideal', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'brute_force_black_box_model_dev_'+files[0].name});
+}
+
+//black-box-opt
+// for (k=0;k<stepOpt[maxCorr_eq].length;k++){for(i=0;i<stepOpt[maxCorr_eq][k].length;i++){}}
+
+var dataBBm_opt = [];
+dataBBm_opt[0] = {
+  x: optFunct_fit_x[maxCorr_eq],
+  y: optFunct_fit_y[maxCorr_eq],
+  mode: 'lines+markers',
+  name: 'Optimization',
+  line: {shape: 'spline'},
+};
+dataBBm_opt[1] = {
+  x: [exponents_eq[maxCorr_eq],exponents_eq[maxCorr_eq]],
+  y: [0,Math.max(...optFunct_fit_y[maxCorr_eq])],
+  mode: 'lines+markers',
+  name: 'Parametric exp',
+};
+dataBBm_opt[2] = {
+  x: [exponents_fit[maxCorr_eq],exponents_fit[maxCorr_eq]],
+  y: [0,Math.max(...optFunct_fit_y[maxCorr_eq])],
+  mode: 'lines+markers',
+  name: 'Black-box exp',
+};
+
+var layoutBBm_opt = {
+    yaxis: {
+    type: 'log',
+    autorange: true,
+    title: {
+      text: '1-r2',
+    },
+  },
+  xaxis: {
+    title: {
+      text: 'exponent',
+    },
+  },
+  title:'Black-box optimization'
+};
+
+Plotly.react('myDivBBm_opt', dataBBm_opt, layoutBBm_opt);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBm_opt', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'black_box_optimization_curve_'+files[0].name});
+}
+
+//black-box-line relative
+var dataBBm_c_F = [];
+
+dataBBm_c_F[0] = {
+  x: conc,
+  y: norm_valueSet1_eq,
+  mode: 'lines+markers',
+  name: setDist1[maxCorr_eq],
+  line: {shape: 'spline'},
+}
+
+dataBBm_c_F[1] = {
+  x: conc,
+  y: norm_valueSet2_eq,
+  mode: 'lines+markers',
+  name: setDist2[maxCorr_eq],
+  line: {shape: 'spline'},
+}
+
+dataBBm_c_F[2] = {
+  x: conc,
+  y: norm_set_fit,
+  mode: 'lines+markers',
+  name: 'Black-box corrected',
+  line: {shape: 'spline'},
+}
+
+dataBBm_c_F[3] = {
+  x: conc,
+  y: norm_line_set_fit,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+}
+
+var layoutBBm_c_F = {
+  title:'Black-box model: F(normalized) vs c',
+  xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'F (normalized)',
+    }
+  }
+};
+
+Plotly.react('myDivBBm_c_F', dataBBm_c_F, layoutBBm_c_F);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBm_c_F', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'black_box_opt_'+files[0].name});
+}
+//black-box -deviation
+var dataBBm_c_dF_Fideal=[];
+dataBBm_c_dF_Fideal[0] = {
+  x: conc,
+  //y: diff_line_set_fit,
+  y: diff_line_set_fit_perc,
+  mode: 'lines+markers',
+  name: 'Black-box corrected',
+  line: {shape: 'spline'},
+};
+dataBBm_c_dF_Fideal[1] = {
+  x: conc,
+  y: ideal_line_set_fit,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+};
+dataBBm_c_dF_Fideal[2] = {
+  x: conc,
+  y: rmsre_stat_fit_high_perc,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+dataBBm_c_dF_Fideal[3] = {
+  x: conc,
+  y: rmsre_stat_fit_low_perc,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+var layoutBBm_c_dF_Fideal = {
+  title:'Deviation from ideal line:',
+  shapes: [{
+      type: 'rect',
+      xref: 'x',
+      yref: 'paper',
+      x0: 0,
+      y0: 0,
+      x1: lod_fit[maxCorr_eq],
+      y1: 1,
+            fillcolor: '#d3d3d3',
+            opacity: 0.5,
+            line: {
+                width: 0
+            },
+    }],
+    xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'Deviation (%)',
+    }
+  }
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 700,
+    width: 2100,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivBBm_c_dF_Fideal', dataBBm_c_dF_Fideal, layoutBBm_c_dF_Fideal, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBm_c_dF_Fideal', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'black_box_opt_div_'+files[0].name});
+}
+
+//parametric best of
+var dataPm_c_F = [];
+
+dataPm_c_F[0] = {
+  x: conc,
+  y: norm_valueSet1_eq,
+  mode: 'lines+markers',
+  name: setDist1[maxCorr_eq],
+  line: {shape: 'spline'},
+}
+
+dataPm_c_F[1] = {
+  x: conc,
+  y: norm_valueSet2_eq,
+  mode: 'lines+markers',
+  name: setDist2[maxCorr_eq],
+  line: {shape: 'spline'},
+}
+
+dataPm_c_F[2] = {
+  x: conc,
+  y: norm_set_eq,
+  mode: 'lines+markers',
+  name: 'Parametric corrected',
+  line: {shape: 'spline'},
+}
+
+dataPm_c_F[3] = {
+  x: conc,
+  y: norm_line_set_eq,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+}
+
+var layoutPm_c_F = {
+  title:'Best set parametric model: F (normalized) vs c',
+       xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'F (normalized)',
+    }
+  }
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 500,
+    width: 1600,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivPm_c_F', dataPm_c_F, layoutPm_c_F, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivPm_c_F', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'parametric_opt_'+files[0].name});
+}
+
+//parametric-deviation
+var dataPm_c_dF_Fideal=[];
+dataPm_c_dF_Fideal[0] = {
+  x: conc,
+  y: diff_line_set_eq_perc,
+  mode: 'lines+markers',
+  name: 'Parametric corrected',
+  line: {shape: 'spline'},
+};
+dataPm_c_dF_Fideal[1] = {
+  x: conc,
+  y: ideal_line_set_eq_perc,
+  mode: 'lines+markers',
+  name: 'Ideal',
+  line: {shape: 'spline'},
+};
+dataPm_c_dF_Fideal[2] = {
+  x: conc,
+  y: rmsre_stat_eq_high_perc,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+dataPm_c_dF_Fideal[3] = {
+  x: conc,
+  y: rmsre_stat_eq_low_perc,
+  mode: 'lines+markers',
+  name: 'RMSRE',
+  line: {shape: 'spline'},
+};
+var layoutPm_c_dF_Fideal = {
+  title:'Deviation from ideal line:',
+    shapes: [{
+      type: 'rect',
+      xref: 'x',
+      yref: 'paper',
+      x0: 0,
+      y0: 0,
+      x1: lod_eq[maxCorr_eq],
+      y1: 1,
+            fillcolor: '#d3d3d3',
+            opacity: 0.5,
+            line: {
+                width: 0
+            },
+    }],
+     xaxis: {
+    title: {
+      text: 'c',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'Deviation (%)',
+    }
+  }
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 500,
+    width: 1600,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivPm_c_dF_Fideal', dataPm_c_dF_Fideal, layoutPm_c_dF_Fideal, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivPm_c_dF_Fideal', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'parametric_opt_div_'+files[0].name});
+}
+
+//RAW DATA 3D
+var data_Raw = {z: flarray, x: conc, y: distances,  type: 'surface',  contours: {
+    z: {
+      show:true,
+      usecolormap: true,
+      highlightcolor:"#42f462",
+      project:{z: true}
+    }
+  }
+              };
+
+var layoutRaw = {
+ autosize: false, width: 1000, height: 1000,
+  title: {
+    //text:'z1 vs z2 vs log10(1-r^2)',
+    text:'Raw data: F vs z vs c',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+  scene: {
+  	  	      camera: {
+          center: {
+                x: 0, y: 0, z: 0 }, 
+          eye: { 
+                x: 2, y: 2, z: 0.1 }, 
+           up: {
+                x: 0, y: 0, z: 1 }
+        },
+    xaxis: {
+  title: {
+    text:'c',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+    yaxis: {
+  title: {
+    text:'z',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+    zaxis: {
+  title: {
+    text:'F',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+  },
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 800,
+    width: 700,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivRaw_3D', [data_Raw], layoutRaw, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivRaw_3D', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'raw_data_surface_'+files[0].name});
+}
+
+//RAW DATA 2D c vs F
+var dataRaw_c_F = [];
+for (k=0; k<distances.length; k++){
+dataRaw_c_F[k] = {
+  x: conc,
+  y: flarray[k],
+  mode: 'lines+markers',
+  name: distances[k],
+  line: {shape: 'spline'},
+}
+}
+var layoutRaw_c_F = {
+  title:'Raw data: F vs c',
+  xaxis: {
+  title: {
+    text:'c',
+  },
+},
+  yaxis: {
+  title: {
+    text:'F',
+  },
+},
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 700,
+    width: 2100,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivRaw_c_F', dataRaw_c_F, layoutRaw_c_F, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivRaw_c_F', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'raw_data_c_F_'+files[0].name});
+}
+
+//RAW DATA 2D F vs z
+var dataRaw_z_F = [];
+for (k=0; k<conc.length; k++){
+dataRaw_z_F[k] = {
+  x: distances,
+  y: arrayfl[k],
+  mode: 'lines+markers',
+  name: concRound[k],
+  line: {shape: 'spline'},
+}
+}
+var layoutRaw_z_F = {
+  title:'Raw data: F vs z',
+    xaxis: {
+  title: {
+    text:'z',
+  },
+},
+  yaxis: {
+  title: {
+    text:'F',
+  },
+},
+};
+
+var configRaw = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Raw_surface',
+    height: 700,
+    width: 2100,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+
+Plotly.react('myDivRaw_z_F', dataRaw_z_F, layoutRaw_z_F, configRaw);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivRaw_z_F', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'raw_data_z_F_'+files[0].name});
+}
+
+//PARAMETRIC 3D PLOT 
+var data_zPm = {z: stat_report_val_eq, x: distances, y: distances,  type: 'surface',  contours: {
+    z: {
+      show:true,
+      usecolormap: true,
+      highlightcolor:"#42f462",
+      project:{z: true}
+    }
+  }
+              };
+
+var data_zBBm = {z: stat_report_val_fit, x: distances, y: distances,  type: 'surface',  contours: {
+    z: {
+      show:true,
+      usecolormap: true,
+      highlightcolor:"#42f462",
+      project:{z: true}
+    }
+  }
+              };
+
+var data_zPm_opaque = {z: stat_report_val_eq, x: distances, y: distances,  type: 'surface', opacity:0.1, showscale: false
+              };
+
+var data_zBBm_opaque = {z: stat_report_val_fit, x: distances, y: distances,  type: 'surface', opacity:0.8, showscale: false
+              };
+
+var data_zBBm_transparent = {z: stat_report_val_fit, x: distances, y: distances,  type: 'surface', opacity:0.1, showscale: false
+              };
+
+var layoutPm = {
+ autosize: false, width: 1000, height: 1000,
+  title: {
+    //text:'z1 vs z2 vs log10(1-r^2)',
+    text:'-1/(1-r^2) vs z1 vs z2',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+  scene: {
+  	  	  	      camera: {
+          center: {
+                x: 0, y: 0, z: 0 }, 
+          eye: { 
+                x: 2, y: 2, z: 0.5 }, 
+           up: {
+                x: 0, y: 0, z: 1 }
+        },
+    xaxis: {
+  title: {
+    text:'z1',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+    yaxis: {
+  title: {
+    text:'z2',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+    zaxis: {
+  title: {
+    text:'-1/(1-r^2)',
+    font: {
+      family: 'Courier New, monospace',
+      size: 18
+    },
+  },
+    },
+  },
+};
+
+var configPm = {
+  toImageButtonOptions: {
+    format: 'svg', // one of png, svg, jpeg, webp
+    filename: 'Pm_NINFE_surface',
+    height: 800,
+    width: 700,
+    scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+  }
+};
+
+Plotly.react('myDivPm', [data_zPm, data_zBBm_opaque], layoutPm, configPm);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivPm', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'zpoz_opt_3d_surface_combined_'+files[0].name});
+}
+
+Plotly.react('myDivPmOnly', [data_zPm, data_zBBm_transparent], layoutPm, configPm);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivPmOnly', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'zpoz_opt_3d_surface_paramteric_'+files[0].name});
+}
+
+Plotly.react('myDivBBmOnly', [data_zBBm, data_zPm_opaque], layoutPm, configPm);
+if (downloadGraphBox.checked == true){
+Plotly.downloadImage('myDivBBmOnly', {format: PICtype, width: PICwidth, height: PICheight, scale: PICscale, filename: 'zpoz_opt_3d_surface_black_box_'+files[0].name});
+}
+
+//download
+var filename;
+var downloadBox = document.getElementById("download");
+if (downloadBox.checked == true){
+var csv = br2nl(demo4,true);
+filename = files[0].name+"_calib_ninfe.csv";
+download(filename, csv);
+}  
+
+//REPORTING
+var demo0 = ("<br>");
+var demo1 = ("<h2>CALIBRATION</h2>");
+demo1 += ("<h4>Input file: "+files[0].name+"</h4>"); 
+demo1 += ("<h4>Output file: "+filename+"</h4><br>"); 
+demo1 += ("<br>");
+demo2_1 = ("<h3>REPORT</h3>"+"<br>");
+demo2_1 += ("For full report select 'Download results' before running."+"<hr>");
+demo8 = ("<hr>");
+document.getElementById("demo1").innerHTML = demo1;
+document.getElementById("demo2").innerHTML = demo2;
+document.getElementById("demo2_1").innerHTML = demo2_1;
+//document.getElementById("demo3").innerHTML = demo3;
+document.getElementById("demo5").innerHTML = demo5;
+document.getElementById("demo6").innerHTML = demo6;
+document.getElementById("demo7").innerHTML = demo7;
+document.getElementById("demo8").innerHTML = demo8;
+//END SCRIPT
+}); 
+}
+}
+});
+
+
+//READOUT
+//input file
+let selectedFile1;
+document.getElementById('input1').addEventListener("change", (event) => {
+    selectedFile1 = event.target.files[0];
+    var files1 = [];
+    files1.push(selectedFile1);
+
+if(calibparamFit === undefined){
+
+    if(alert('PLEASE DO CALIBRATION FIRST')){}
+else    window.location.reload(); 
+    files1 = [];
+} 
+    
+
+var demo = ("<br>");
+var demo10 = ("<h2>READING DATA</h2>");
+var demo101 = ("<hr>");
+
+//PROGRAM
+for (br=0;br<files1.length;br++){
+var file1 = files1[br];
+         //demo10 += ("<h2>"+files1[br].name+"</h2>");
+         demo10 += ("<h4>Input file: "+files1[br].name+"</h4>"); 
+var filename1;
+var downloadBox = document.getElementById("download");
+if (downloadBox.checked == true){
+filename1 = file1.name+"_readout_ninfe.csv";
+demo10 += ("<h4>Output file: "+filename1+"</h4>"); 
+} 
+        let fileReader = new FileReader();
+        fileReader.readAsBinaryString(file1);
+        fileReader.onload = (event)=>{
+         let data = event.target.result;
+         let workbook = XLSX.read(data,{type:"binary"});
+         //console.log(workbook);
+         workbook.SheetNames.forEach(sheet => {
+              let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+              //demo10 += ("<h3>"+file1.name+"</h3>"+"<br>");
+
+demomode=1;
+
+//converting from json to arrays for working
+var keys = Object.keys(rowObject[0]);
+var distances = [];
+var designation = [];
+if (demomode == 0){
+if (keys.length < 4){
+  var limit=3;
+} else {
+  var limit=4;
+};
+for (i=1; i<limit; i++){
+distances.push(rowObject[0][keys[i]]);
+}
+}
+else{
+for (i=1; i<keys.length; i++){
+distances.push(rowObject[0][keys[i]]);
+} 
+}
+
+for(j=0; j<rowObject.length-1; j++){
+var des = rowObject[j+1][keys[0]];
+if(isNaN(des)){
+designation.push(des);
+}else{
+designation.push(des.toString());
+}
+}
+
+var flarray = [];
+for (i=0; i<distances.length; i++){
+    flarray[i] = [];
+    for(j=0; j<rowObject.length-1; j++){
+        var val1 = rowObject[j+1][keys[i+1]];
+        flarray[i][j] = val1; 
+    }
+}
+
+//table original data
+google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable100);
+      function drawTable100() {
+var data100=new google.visualization.DataTable();
+data100.addColumn('string','Designation');
+for (i=0; i < distances.length; i++){
+data100.addColumn('number',distances[i]);
+}
+
+for (j=0; j < flarray[0].length; j++){
+var rownew = [];
+rownew.push(designation[j]); 
+for (i=0; i < distances.length; i++){
+rownew.push(flarray[i][j]);
+}
+data100.addRow(rownew);
+}
+
+var table100 = new google.visualization.Table(document.getElementById('table_div100'));
+table100.draw(data100, {showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+
+//function to calculate
+//function calcRead(val1, val2, exp, slope, intercept, bottom, top, nonlin1, nonlin2){
+function calcRead(val1, val2, exp, slope, intercept, bottom, top){
+var newSet = [];
+var newFcorr = [];
+for (i=0; i<val1.length; i++){
+var var1 = val1[i];
+var var2 = val2[i];
+var corrector1 = (var2/var1); 
+var corrector2 = Math.pow(corrector1,exp);
+var newF = (var1*corrector2);
+var newval = (newF-intercept)/slope;
+if (newF > (top*slope+intercept)){
+  newval = null;
+}
+/*
+if (var1 > nonlin1){
+  newval = null;
+}
+if (var2 > nonlin2){
+  newval = null;
+}
+*/
+if (newval < bottom ){
+  newval = null;
+} 
+if (newval > top) {
+  newval = null;
+}
+newSet.push(newval);
+newFcorr.push(newF);
+}
+return{
+    corrFl: newFcorr,
+    calcSet: newSet,
+}   
+}
+
+var demo100 = ("<h2>READOUT</h2>");
+demo100 += ("<h4>Input file: "+files1[0].name+"</h4>"); 
+var set_eq = [];
+var set_eq_Fl = [];
+var set_fit = [];
+var set_fit_Fl = [];
+var r2_eq = [];
+var r2_fit = [];
+var setDist1 = [];
+var setDist2 = [];
+var setDist = [];
+
+
+
+var counter = 0;
+for (l=0; l<distances.length; l++){
+  for (k=0; k<distances.length; k++){
+    if (k != l){
+      let calc_param = all_data.find(c => c.setDist1 == distances[l] && c.setDist2 == distances[k]);
+//console.log(calc_param);
+//var set_eq_singular = calcRead(flarray[l],flarray[k],calc_param.exp_eq,calc_param.slope_eq,calc_param.intercept_eq,calc_param.bottom_eq,calc_param.top_eq,Math.max(...flarray[l])+1,Math.max(...flarray[k])+1);
+var set_eq_singular = calcRead(flarray[l],flarray[k],calc_param.exp_eq,calc_param.slope_eq,calc_param.intercept_eq,calc_param.bottom_eq,calc_param.top_eq);
+set_eq.push(set_eq_singular.calcSet);
+set_eq_Fl.push(set_eq_singular.corrFl);
+var set_fit_singular = calcRead(flarray[l],flarray[k],calc_param.exp_fit,calc_param.slope_fit,calc_param.intercept_fit,calc_param.bottom_fit,calc_param.top_fit);
+set_fit.push(set_fit_singular.calcSet);
+set_fit_Fl.push(set_fit_singular.corrFl);
+r2_eq.push(calc_param.r2_eq);
+r2_fit.push(calc_param.r2_fit);
+setDist1.push(distances[l]);
+setDist2.push(distances[k]);
+setDist.push("z1-"+distances[l]+" z2-"+distances[k]);
+counter++
+    }
+  }
+}
+
+
+for (l=0; l<distances.length; l++){
+  let lin_param = lin_data.find(c => c.setDist == distances[l]);
+//var lin_singular = calcRead(flarray[l],flarray[l],1,lin_param.slope,lin_param.intercept,lin_param.bottom,lin_param.top,lin_param.nonlin,lin_param.nonlin);
+var lin_singular = calcRead(flarray[l],flarray[l],1,lin_param.slope,lin_param.intercept,lin_param.bottom,lin_param.top);
+set_eq.push(lin_singular.calcSet);
+setDist.push("z(linear region)-"+distances[l]);
+r2_eq.push(lin_param.r2);
+set_fit.push(lin_singular.calcSet);
+r2_fit.push(lin_param.r2);
+counter++
+}
+
+var demo300 = ("PARAMETRIC METHOD"+"<br>"+"Designation,"+setDist+"<br>");
+for (i=0; i<flarray[0].length; i++){
+var addRow = [];
+addRow.push(designation[i]);
+for (j=0; j<counter;j++){
+addRow.push(set_eq[j][i])
+}
+demo300 += (addRow);
+demo300 += ("<br>");
+}
+demo300 += ("r<sup>2</sup>,"+r2_eq);
+demo300 += ("<br>"+"<br>");
+
+var best_eq_inRow=r2_eq.indexOf(Math.max(...r2_eq));
+
+demo300 += ("BEST PARAMETRIC METHOD,"+setDist[best_eq_inRow]);
+demo300 += ("<br>");
+for (i=0; i<flarray[0].length; i++){
+var addRow1 = [];
+addRow1.push(designation[i]);
+if (set_eq[best_eq_inRow][i] == null){
+addRow1.push("OUT OF RANGE");
+}else{
+addRow1.push(set_eq[best_eq_inRow][i]);
+}
+demo300 += (addRow1);
+demo300 += ("<br>");
+}
+demo300 += ("r<sup>2</sup>,"+r2_eq[best_eq_inRow]);
+demo300 += ("<br>");
+demo300 += ("<br>");
+
+demo300 += ("<br>"+"BLACK-BOX METHOD"+"<br>"+"Designation,"+setDist+"<br>");
+for (i=0; i<flarray[0].length; i++){
+var addRow = [];
+addRow.push(designation[i]);
+for (j=0; j<counter;j++){
+addRow.push(set_fit[j][i])
+}
+demo300 += (addRow);
+demo300 += ("<br>");
+}
+demo300 += ("r<sup>2</sup>,"+r2_fit);
+demo300 += ("<br>"+"<br>");
+
+var best_fit_inRow=r2_eq.indexOf(Math.max(...r2_eq));
+
+demo300 += ("BEST PARAMETRIC METHOD,"+setDist[best_fit_inRow]);
+demo300 += ("<br>");
+for (i=0; i<flarray[0].length; i++){
+var addRow1 = [];
+addRow1.push(designation[i]);
+if (set_fit[best_fit_inRow][i] == null){
+addRow1.push("OUT OF RANGE");
+}else{
+addRow1.push(set_fit[best_fit_inRow][i]);
+}
+demo300 += (addRow1);
+demo300 += ("<br>");
+}
+demo300 += ("r<sup>2</sup>,"+r2_fit[best_fit_inRow]);
+demo300 += ("<br>");
+demo300 += ("<br>");
+
+//TABLE CALC EQ
+      google.charts.setOnLoadCallback(drawTable101);
+      function drawTable101() {
+
+/*
+var data101=new google.visualization.DataTable();
+data101.addColumn('string','Designation');
+for (i=0; i < counter; i++){
+data101.addColumn('number',setDist[i]);
+}
+
+for (j=0; j < flarray[0].length; j++){
+var rownew = [];
+var row_weight = 0;
+var sum_r2 = 0;
+var statrow = [];
+rownew.push(designation[j]); 
+statrow.push("r<sup>2</sup>");
+for (i=0; i < counter; i++){
+rownew.push(set_eq[i][j]);
+statrow.push(r2_eq[i]);
+}
+data101.addRow(rownew);
+}
+data101.addRow(statrow);
+
+var table101 = new google.visualization.Table(document.getElementById('table_div101'));
+table101.draw(data101, {allowHtml:true,frozenColumns:1,showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+*/
+
+var rot_data101=new google.visualization.DataTable();
+rot_data101.addColumn('string','Corrections');
+for (i=0; i < designation.length; i++){
+rot_data101.addColumn('number',designation[i]);
+}
+rot_data101.addColumn('number','r<sup>2</sup>');
+
+for (i=0; i < counter; i++){
+var rot_rownew = [];
+rot_rownew.push(setDist[i]);
+for (j=0; j < flarray[0].length; j++){
+rot_rownew.push(set_eq[i][j]);
+}
+rot_rownew.push(r2_eq[i]);
+rot_data101.addRow(rot_rownew);    
+}    
+
+var table101 = new google.visualization.Table(document.getElementById('table_div101'));
+table101.draw(rot_data101, {allowHtml:true,frozenRows:1,showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+
+var weighted_value = [];
+for (j=0; j < flarray[0].length; j++){
+var row_weight = 0;
+var sum_r2 = 0;
+for (i=0; i < counter; i++){
+  if (r2_eq[i] > 0.99){
+    if(set_eq[i][j] > 0.01){
+row_weight=row_weight+(set_eq[i][j]*r2_eq[i]);
+sum_r2=sum_r2+r2_eq[i];
+}
+}
+}
+weighted_value.push(row_weight/sum_r2);
+}
+
+var demo102 = ("<br>");
+demo102 += ("Best r<sup>2</sup>: "+r2_eq[best_eq_inRow]+"<br>");
+
+//TABLE BEST CALC EQ
+      google.charts.setOnLoadCallback(drawTable102);
+      function drawTable102() {
+var data102=new google.visualization.DataTable();
+data102.addColumn('string','Designation');
+data102.addColumn('number',setDist[best_eq_inRow]);
+//data102.addColumn('number','Weighted (value*r<sup>2</sup>)');
+for (j=0; j < flarray[0].length; j++){
+var rownew = [];
+rownew.push(designation[j]); 
+rownew.push(set_eq[best_eq_inRow][j]);
+//rownew.push(weighted_value[j]);
+data102.addRow(rownew);
+}
+var table102 = new google.visualization.Table(document.getElementById('table_div102'));
+table102.draw(data102, {allowHtml:true,showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+
+
+//TABLE CALC FIT
+      google.charts.setOnLoadCallback(drawTable201);
+      function drawTable201() {
+var data201=new google.visualization.DataTable();
+data201.addColumn('string','Designation');
+for (i=0; i < counter; i++){
+data201.addColumn('number',setDist[i]);
+}
+
+for (j=0; j < flarray[0].length; j++){
+var rownew = [];
+var row_weight = 0;
+var sum_r2 = 0;
+var statrow = [];
+rownew.push(designation[j]); 
+statrow.push("r<sup>2</sup>");
+for (i=0; i < counter; i++){
+rownew.push(set_eq[i][j]);
+statrow.push(r2_fit[i]);
+}
+data201.addRow(rownew);
+}
+data201.addRow(statrow);
+
+var table201 = new google.visualization.Table(document.getElementById('table_div201'));
+table201.draw(data201, {allowHtml:true,frozenColumns:1,showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+
+var weighted_value = [];
+for (j=0; j < flarray[0].length; j++){
+var row_weight = 0;
+var sum_r2 = 0;
+for (i=0; i < counter; i++){
+  if (r2_fit[i] > 0.99){
+    if(set_fit[i][j] > 0.01){
+row_weight=row_weight+(set_fit[i][j]*r2_fit[i]);
+sum_r2=sum_r2+r2_fit[i];
+}
+}
+}
+weighted_value.push(row_weight/sum_r2);
+}
+
+var demo202 = ("<br>");
+demo202 += ("Best r<sup>2</sup>: "+r2_fit[best_fit_inRow]+"<br>");
+
+//TABLE BEST CALC FIT
+      google.charts.setOnLoadCallback(drawTable202);
+      function drawTable202() {
+var data202=new google.visualization.DataTable();
+data202.addColumn('string','Designation');
+data202.addColumn('number',setDist1[best_fit_inRow]);
+data202.addColumn('number',setDist2[best_fit_inRow]);
+data202.addColumn('number','F<sub>Z</sub>');
+data202.addColumn('number','conc');
+//data202.addColumn('number','Weighted conc (value*r<sup>2</sup>)');
+for (j=0; j < flarray[0].length; j++){
+var rownew = [];
+rownew.push(designation[j]);
+rownew.push(flarray[distances.indexOf(setDist1[best_fit_inRow])][j]);
+rownew.push(flarray[distances.indexOf(setDist2[best_fit_inRow])][j]);
+rownew.push(set_fit_Fl[best_fit_inRow][j]);
+rownew.push(set_fit[best_fit_inRow][j]);
+//rownew.push(weighted_value[j]);
+data202.addRow(rownew);
+}
+var table202 = new google.visualization.Table(document.getElementById('table_div202'));
+table202.draw(data202, {allowHtml:true,showRowNumber: true, width: 'automatic', height: 'automatic'});
+};
+
+//DOWNLOAD
+var filename1;
+var downloadBox = document.getElementById("download");
+if (downloadBox.checked == true){
+filename1 = file1.name+"_readout_ninfe.csv";
+demo100 += ("<h4>Output file: "+filename1+"</h4>"); 
+} 
+if (downloadBox.checked == true){
+var csv = br2nl(demo300,true);
+download(filename1, csv);
+}  
+
+//REPORTING
+demo100 += ("<br>"+"Raw data:"+"<br>"); 
+var demo101 = ("<br>");
+demo101 += ("<h3>Parametric method</h3>"+"<br>"+"Calculated data:"+"<br>");
+var demo201 = ("<br>");
+demo201 += ("<h3>Black-box method</h3>"+"<br>"+"Calculated data:"+"<br>");
+var demo203 = ("<br>"+"<h4>FINISHED</h4>"+"<br>");
+demo203 += ("<hr>");
+document.getElementById("demo100").innerHTML = demo100;
+document.getElementById("demo101").innerHTML = demo101;
+document.getElementById("demo102").innerHTML = demo102;
+document.getElementById("demo201").innerHTML = demo201;
+document.getElementById("demo202").innerHTML = demo202;
+document.getElementById("demo203").innerHTML = demo203;
+
+//END
+});
+}
+}
+});
+
+</script>
+<ul class="b">
+  <p id="demo100"></p>
+  <div id="table_div100"></div>
+  <p id="demo101"></p>
+  <div id="table_div101"></div>
+  <p id="demo102"></p>
+  <div id="table_div102"></div>
+    <p id="demo201"></p>
+  <div id="table_div201"></div>
+  <p id="demo202"></p>
+  <div id="table_div202"></div>
+  <p id="demo203"></p>
+  <p id="demo1"></p>
+  <div id='myDivRaw_3D' style="height: 100%"></div>
+  <div id='myDivRaw_c_F' style="height: 100%"></div>
+  <p id="demo2"></p>
+  <div id='myDivRaw_z_F' style="height: 100%"></div>
+  <p id="demo2_1" ></p>
+  <div id="table_div0"></div> 
+  <div id='myDivPmOnly' style="height: 100%"></div>
+  <p id="demo5"></p>
+  <div id="table_div1"></div> 
+  <div id="myDivPm_c_F"></div>
+  <div id="myDivPm_c_dF_Fideal"></div>
+  <p id="demo6"></p>
+  <div id='myDivPm' style="height: 100%"></div>
+  <div id="myDivBBm_opt"></div>
+  <div id="table_div2"></div> 
+  <div id="myDivBBm_c_F"></div>
+  <div id="myDivBBm_c_dF_Fideal"></div>
+  <p id="demo7"></p>
+  <div id='myDivBBmOnly' style="height: 100%"></div>
+  <div id="table_div3"></div> 
+  <div id="myDivBBmBF_c_F"></div>
+  <div id="myDivBBmBF_c_dF_Fideal"></div>  
+  <p id="demo8"></p>
+                <h2>Introduction to NINFE</h2>
+                <h4>Friganović, Šakić, Weitner, 2020-2021</h4>
+                <p>
+                    Corrector function to eliminate inner filter effect for fluorescence measurements in microplates.<br>Further details will be available pending method publication. <br><br>
+                    Data should be formatted as:<br>
+                </p>
+
+<script>
+  //SAMPLE TABLES
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable11);
+      function drawTable11() {
+var data11=new google.visualization.DataTable();
+data11.addColumn('string','c');
+data11.addColumn('number','z1');
+data11.addColumn('number','z2');
+data11.addColumn('number','z3');
+data11.addColumn('number','z4');
+data11.addColumn('number','z5');
+data11.addRow(['h',15000,16000,17000,18000,19000]);
+data11.addRow(['4.59',12.00,18.67,30.00,32.67,26.67]);
+data11.addRow(['9.19',19.33,34.00,54.33,61.67,49.33]);
+data11.addRow(['13.78',28.00,49.67,81.67,90.33,73.00]);
+data11.addRow(['18.37',35.00,61.67,101.33,114.33,93.00]);
+data11.addRow(['22.96',40.00,72.33,120.67,138.67,113.33]);
+var table11 = new google.visualization.Table(document.getElementById('table_div11'));
+table11.draw(data11, {showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+      google.charts.setOnLoadCallback(drawTable12);
+      function drawTable12() {
+var data12=new google.visualization.DataTable();
+data12.addColumn('number','ID');
+data12.addColumn('number','F1');
+data12.addColumn('number','F2');
+data12.addColumn('number','conc1(4.59)');
+data12.addColumn('number','conc2(9.19)');
+data12.addColumn('number','conc3(13.78)');
+data12.addColumn('number','conc4(18.37)');
+data12.addColumn('number','conc5(22.96)');
+data12.addColumn('number','slope');
+data12.addColumn('number','intercept');
+data12.addColumn('number','r<sup>2</sup>');
+data12.addColumn('number','rmsre');
+data12.addColumn('number','steyx');
+data12.addColumn('number','LOD');
+data12.addColumn('number','mErr%');
+data12.addColumn('number','LOD%');
+data12.addColumn('number','exp');
+data12.addRow([0,15000,16000,91.3835,258.6138,389.5127,472.0339,607.6425,27.1339,-10.0136,0.9882,0.1034,24.9065,3.0291,1.6336,13.1929,4.5930]);
+data12.addRow([1,15000,17000,62.2416,123.7414,191.5839,236.2970,290.7719,12.4048,10.0144,0.9953,0.0416,7.1715,1.9078,-3.3967,8.3092,1.7965]);
+data12.addRow([2,15000,18000,28.5193,52.6889,77.0587,97.3677,117.1475,4.8332,7.9651,0.9975,0.0295,2.0444,1.3959,-6.6971,6.0798,0.8643]);
+data12.addRow([3,15000,19000,16.4934,28.0719,41.0106,51.6525,60.5595,2.4328,6.0384,0.9957,0.0282,1.3349,1.8108,-9.7558,7.8867,0.3983]);
+data12.addRow([4,16000,15000,221.2044,800.1027,1225.7275,1465.4971,1986.8501,91.3950,-119.3638,0.9839,0.1346,97.9902,3.5381,6.0313,15.4100,-5.5930]);
+var table12 = new google.visualization.Table(document.getElementById('table_div12'));
+table12.draw(data12, {allowHtml: true, showRowNumber: false, width: 'automatic', height: 'automatic'});
+};
+
+</script>
+
+                    <div id="table_div11"></div> 
+                    <br>
+                 <p>
+                  Output data (from above calibration) is formatted as:
+                                  </p>
+                    <div id="table_div12"></div> 
+                    <br>
+                 <p>
+                    Example test file can be downloaded <a href="/NINFE_data4test.xlsx" download>here</a>. <br>
+
+                    <br> For details about data formatting, export and updates about the method please contact <a href="mailto:dsakic@pharma.hr?subject=NINFE Registration" target="_blank" rel="noopener noreferrer">davor.sakic@pharma.unizg.hr</a>.<br /><br>
+                    Help from Mario Gabričević (discussion), Tino Šeba, Valentina Borko, and Robert Kerep (testing) is greatly appreciated.
+                    <br /><br>
+
+                    </p>
+
+                <br>
+                
+                <br><br>
+
+                
+
+<h2> NOTES </h2>
+<p>
+r<sup>2</sup>: the coefficient of determination representing the proportion of the variance of the dependent variable that is explained by an independent variable(s) in a regression model.
+<br><br>
+rmsre: root mean squared relative error.
+<br><br>
+steyx: the standard error of the estimated dependent variable y in a simple linear regression model.
+<br><br>
+LOD: limit of detection corresponding to the lowest quantity of a substance that can be differentiated from the blank sample (absence of the substance) at a given confidence level.
+<br><br>
+mErr%: the percentage error of the slope of the line of corrected fluorescence, as compared to the slope of the ideal dependence derived from Beer-Lambert law.
+<br><br>
+Calibration range: range of concentrations used for calibration (lowest-highest).
+<br><br>
+Correction range: range of concentrations applicable for correction (LOD-highest).
+<br><br>
+Parametric model (Pm): Corrected fluorescence were obtained via three parameter equation. Further details will be available pending method publication.
+<br><br>
+Black-box model (BBm) optimization: Performed by evaluation of the r<sup>2</sup> value of a linear regression for a set of equally distributed coefficients in a chosen starting range. Distribution of coefficients within the range is defined by stepsize; larger stepsize equals rougher grid. After each cycle, the coefficient with highest r<sup>2</sup> value was taken as a starting point for the next cycle with finer grid (smaller stepsize) and equal number of steps. Optimization was stopped if difference in r<sup>2</sup> between two subsequent cycles is less than 10<sup>-6</sup>, or after 20 cycles.<br><br>
+</p>
+<h2> CREDITS </h2>
+<p>
+Idea: <a href="https://scholar.google.com/citations?user=EpCd-bEAAAAJ&hl=en&oi=ao" target="_blank">Tin Weitner</a>, 2020.-2021.<br>
+<br>Created by: <a href="https://scholar.google.com/citations?user=EpCd-bEAAAAJ&hl=en&oi=ao" target="_blank">Tin Weitner</a>, <a href="#">Tomislav Friganović</a>, and <a href="https://scholar.google.com/citations?hl=en&user=BBURjcwAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Davor Šakić</a>, 2021.<br>
+<br>Python version: <a href="#">Tomislav Friganović</a>, 2021.<br>
+<br>Web adaptation by: <a href="https://scholar.google.com/citations?hl=en&user=BBURjcwAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Davor Šakić</a>, 2021.<br>
+<br>Funding: <a href="http://www.hrzz.hr" target="_blank">HrZZ</a>, <a href="http://glymech.pharma.hr" target="_blank">GlyMech</a>, 2021.<br>
+</p>
+
+                        <br>
+                    <br>     
+                    </ul>         
+            </div>
+            </div>
+                </div>
+                <br />
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+               &#9400; 2021. ninfe.science. All rights reserved. <a href="policy.html" target="_blank"> Privacy notice</a><br><br>
+                Technical support: <a href="mailto:dsakic@pharma.hr?subject=NINFE" target="_blank" rel="noopener noreferrer">Davor Šakić</a><br />
+                design by <a href="mailto:hello@vakuum.studio?subject=WebSiteDesign ninfe.science" target="_blank" rel="noopener noreferrer">Luka Lovrek</a><br>
+            </p>
+        </div>
+
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+<script>
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#eaf7f7",
+      "text": "#5c7291"
+    },
+    "button": {
+      "background": "#375d9d",
+      "text": "#ffffff"
+    }
+  },
+  "theme": "edgeless",
+  "content": {
+    "href": "policy.html"
+  }
+});
+</script>
+
+    </body>
+</html>
+
